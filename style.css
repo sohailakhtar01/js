@@ -1,0 +1,250 @@
+/* ===================================================
+   Smart Virtual Coding & MCQ Simulator Style System
+   =================================================== */
+
+/* Design Tokens Definitions */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-color: #1f2937;
+    --border-color: #e5e7eb;
+    --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 580px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #1e3a8a;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.card h3 {
+    margin-top: 0;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+/* Target Badge style */
+.target-badge {
+    background: rgba(37, 99, 235, 0.06);
+    color: var(--primary-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: inline-block;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+/* Form Layouts */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+/* Custom MCQ Options Style */
+.mcq-option {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.01);
+    transition: background 0.2s ease;
+}
+
+.mcq-option:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.mcq-option input {
+    width: auto;
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+/* Code Editor Textarea */
+.code-textarea {
+    width: 100%;
+    height: 180px;
+    font-family: 'Courier New', Courier, monospace;
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border: 1px solid #3c3c3c;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.code-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+}
+
+/* Dynamic Interaction Components */
+button {
+    padding: 10px 18px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+.btn-group {
+    margin-top: 15px;
+}
+
+.btn-group button {
+    margin-right: 8px;
+}
+
+.question-box {
+    background: rgba(0, 0, 0, 0.02);
+    border-left: 5px solid var(--primary-color);
+    padding: 15px;
+    border-radius: 4px;
+    margin: 15px 0;
+}
+
+.timer-box {
+    margin: 15px 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#timer {
+    color: #dc2626;
+    font-size: 18px;
+}
+
+.score-summary {
+    background: rgba(0, 0, 0, 0.01);
+    border: 1px dashed var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.score-summary p {
+    margin: 6px 0;
+    font-weight: bold;
+}
+
+/* Detailed Review Cards */
+.review-card {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    margin: 12px 0;
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.review-card h4 {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+}
+
+.review-card p {
+    margin: 5px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Monospace pre code block in review */
+.review-card pre {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    overflow-x: auto;
+    margin: 8px 0;
+    color: #334155;
+}
+
+.delete-btn {
+    background: #dc2626;
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+.helper-text {
+    font-size: 12px;
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+}

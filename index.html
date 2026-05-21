@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realistic Coding & MCQ Assessment Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Smart Virtual Coding & MCQ Simulator</h1>
+
+        <!-- Setup Screen -->
+        <div id="startBox" class="card">
+            <h3>Assessment Configuration</h3>
+            <div class="form-group">
+                <label for="username">Candidate Name:</label>
+                <input type="text" id="username" placeholder="Enter Your Name">
+            </div>
+
+            <div class="form-group">
+                <label for="companyName">Target Company:</label>
+                <input type="text" id="companyName" placeholder="e.g. Google, Microsoft, Meta">
+            </div>
+
+            <div class="form-group">
+                <label for="roleName">Target Role:</label>
+                <input type="text" id="roleName" placeholder="e.g. Frontend Engineer, Software Developer">
+            </div>
+
+            <div class="form-group">
+                <label for="levelSelect">Difficulty Level:</label>
+                <select id="levelSelect">
+                    <option value="low">Low Level (Junior - 30s MCQ / 90s Coding)</option>
+                    <option value="medium" selected>Medium Level (Mid-Level - 20s MCQ / 60s Coding)</option>
+                    <option value="high">High Level (Senior - 10s MCQ / 30s Coding)</option>
+                </select>
+            </div>
+
+            <button onclick="startInterview()">Start Assessment</button>
+        </div>
+
+        <!-- Active Interview Box -->
+        <div id="interviewBox" class="card" style="display:none;">
+            <div class="target-badge">
+                <span id="targetDetails">Applying for Role at Company</span>
+            </div>
+            
+            <h3 id="category">Question Category</h3>
+
+            <div class="question-box">
+                <p id="question">Question loading...</p>
+            </div>
+
+            <!-- Dynamic MCQ options container -->
+            <div id="mcqContainer" class="form-group" style="display:none;"></div>
+
+            <!-- Monospace Coding textarea container -->
+            <div id="codeContainer" class="form-group" style="display:none;">
+                <label for="codeAnswer">Write JavaScript Code:</label>
+                <textarea id="codeAnswer" class="code-textarea" placeholder="function isPalindrome(str) { ... }"></textarea>
+            </div>
+
+            <div class="timer-box">
+                <span>Time Left: <strong id="timer">60</strong> seconds</span>
+            </div>
+
+            <div class="btn-group">
+                <button onclick="nextQuestion()">Submit Answer</button>
+            </div>
+        </div>
+
+        <!-- Result Scorecard Box -->
+        <div id="resultBox" class="card" style="display:none;">
+            <h2>Assessment Results</h2>
+            <div class="score-summary">
+                <p id="finalName">Candidate: </p>
+                <p id="finalCompany">Target Company: </p>
+                <p id="finalRole">Target Role: </p>
+                <p id="finalLevel">Difficulty Level: </p>
+                <p id="finalScore">Score: </p>
+                <p id="performance">Performance: </p>
+            </div>
+
+            <hr>
+
+            <h3>Detailed Question Review</h3>
+            <p class="helper-text">You can delete individual review cards dynamically below (demonstrates Event Delegation).</p>
+            <div id="reviewList"></div>
+
+            <div class="btn-group">
+                <button onclick="downloadReport()">Download Report</button>
+                <button onclick="restartInterview()">Restart</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

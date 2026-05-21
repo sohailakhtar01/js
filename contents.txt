@@ -1,0 +1,156 @@
+================================================================================
+                    LABORATORY PROJECT REPORT & DEMO SLIDES
+        PROJECT: SMART VIRTUAL CODING & MCQ ASSESSMENT SIMULATOR
+================================================================================
+
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW & CORE OBJECTIVES
+--------------------------------------------------------------------------------
+The Smart Virtual Coding & MCQ Simulator is a real-time, fully interactive 
+mock recruiting and technical assessment platform. It allows users to simulate 
+a realistic tech interview by selecting a target company (e.g. Google, Microsoft), 
+a job role, and a difficulty level (Junior, Mid-Level, Senior). 
+
+The application consists of 5 questions (3 Conceptual Multiple Choice Questions 
+and 2 Written Coding exercises) that evaluate candidate aptitude. It enforces 
+strict, type-specific countdown timers (e.g., 20 seconds for MCQs, 60 seconds 
+for coding challenges under Mid-Level settings) and grades code submissions 
+against standard solution keywords dynamically.
+
+The system concludes with a comprehensive, interactive performance scorecard 
+where candidates can review detailed logs and correct answers, delete review 
+cards dynamically using Event Delegation, and download a complete text report.
+
+--------------------------------------------------------------------------------
+2. KEY PROGRAMMING CONCEPTS DEMONSTRATED
+--------------------------------------------------------------------------------
+This project implements the core JavaScript and web development competencies 
+outlined in the laboratory curriculum:
+
+A. EVENT DELEGATION
+- Rather than registering click event listeners to every "Delete Card" button 
+  individually (which is highly inefficient and breaks when new elements are 
+  rendered), the script attaches a single click event listener to the parent 
+  container element (#reviewList). 
+- When a button inside a scorecard card is clicked, the event bubbles up to 
+  the parent container. The parent listener intercepts it, checks if the 
+  clicked target contains the 'delete-btn' class, and safely removes the 
+  associated card element from the DOM:
+  
+  document.getElementById("reviewList").addEventListener("click", function(e) {
+      if (e.target.classList.contains("delete-btn")) {
+          e.target.parentElement.remove();
+      }
+  });
+
+B. DYNAMIC DOM CREATION AND UPDATES
+- Uses document.createElement("div") and element.innerHTML to construct option 
+  lists and the detailed scorecard cards on-the-fly. This allows the page to 
+  update in real time without reloading.
+
+C. RECRUITMENT STATE MACHINE & INPUT VALIDATION
+- Form elements capture Candidate Name, Target Company, and Role. The system 
+  validates that no fields are left blank, throwing an alert if required parameters 
+  are missing, mimicking production enterprise software validation.
+
+D. DYNAMIC MULTI-STAGE TIMER LOOPS
+- Utilizes setInterval() and clearInterval() to construct custom timer loops 
+  that evaluate whether a question is an MCQ (20s) or Coding (60s), applying 
+  speed multipliers based on selected Junior, Mid-Level, or Senior difficulty.
+
+E. DATA PERSISTENCE & DOWNLOADABLE BLOBS
+- Encapsulates candidate responses, scores, and expected answers into a clean 
+  text array. The platform packages this data dynamically into a new Blob() 
+  file stream, generating a simulated browser click to trigger a local text 
+  report download.
+
+F. ROLE-BASED DYNAMIC TIMINGS (JUNIOR vs MID-LEVEL vs SENIOR)
+- The countdown timers are configured dynamically by checking both the question type 
+  (MCQs require quick recall; Coding requires syntax composition) and the selected 
+  target difficulty:
+  * Low Level (Junior): 30s MCQ / 90s Coding (relaxed timing for onboarding)
+  * Medium Level (Mid-Level): 20s MCQ / 60s Coding (standard assessment pace)
+  * High Level (Senior): 10s MCQ / 30s Coding (high-pressure rapid solving)
+
+G. DYNAMIC KEYWORD-BASED CODING EVALUATION ENGINE
+- Rather than checking for rigid character matches (which would break on simple spaces 
+  or minor formatting styles), the grading engine checks if the user's code contains 
+  essential programming keyword patterns.
+- For coding questions, the script reads the input typed inside the editor window 
+  (#codeAnswer), converts it to lowercase, and utilizes JavaScript's .some() and 
+  .includes() array operators to check if any required key operators exist (e.g. 
+  'split', 'reverse', 'join' for palindrome checks; 'max', 'for', 'Math' for maximum values).
+- If matched, the candidate is awarded 20 points; otherwise, they receive 0 points.
+
+--------------------------------------------------------------------------------
+3. DETAILED LINE-BY-LINE EXPLANATION GUIDE FOR MOCK PRESENTATIONS & DEMOS
+--------------------------------------------------------------------------------
+
+A. HOW TO EXPLAIN THE HTML (index.html):
+- Start by explaining that the layout is divided into 3 distinct state-driven containers 
+  using standard block cards:
+  1. "startBox": The welcome configurations board. It captures Candidate Name, 
+     Target Company, Job Role, and Level via simple inputs. It is visible by default.
+  2. "interviewBox": The active assessment workspace. It is initially hidden 
+     (display:none). It has:
+     - A target badge displaying track logs.
+     - An options wrapper (#mcqContainer) that renders radio lists for MCQs.
+     - A textarea (#codeContainer) for writing code.
+     - A timer counting down seconds left.
+  3. "resultBox": The final scorecard screen, initially hidden. It displays 
+     overall scores, level track, and dynamically populates question cards that can be deleted 
+     via Event Delegation. It also houses the "Download Report" button.
+
+B. HOW TO EXPLAIN THE STYLING (style.css):
+- Explain that the design follows modern, responsive, and flat structural tokens:
+  1. CSS Variables (:root): Defines all colors, borders, and shadows globally, 
+     ensuring complete design harmony.
+  2. Layout Structure: Centered columns, smooth background colors, and cards 
+     featuring subtle rounded borders (border-radius: 8px) and shadows (box-shadow).
+  3. Custom Form Selectors: Options (.mcq-option) feature smooth hover 
+     transitions, padding, and custom background shades.
+  4. Monospace Code Area: Textarea (.code-textarea) has fixed courier/monospace 
+     fonts, styled dark background (#1e1e1e) and outlines mimicking premium editors (VS Code).
+  5. Print blocks: Monospace pre tags (.review-card pre) display code blocks 
+     neatly on a clean slate background.
+
+C. HOW TO EXPLAIN THE LOGIC AND INTERACTIVE STATES (script.js):
+- Walk the examiners through the state transitions of the execution thread:
+  1. Question Database: A clean JSON pool containing exactly 5 questions (3 MCQs, 
+     2 Code Tasks). Code questions contain answer templates, expected grading keywords (e.g. 
+     split, reverse, loops/Math), and expected solution strings.
+  2. startInterview(): 
+     - Checks if Name, Company, and Role inputs are empty. If so, throws an alert.
+     - Records the raw difficulty value ('low', 'medium', 'high').
+     - Updates target badges in the header, hides startBox, shows interviewBox, and calls loadQuestion().
+  3. loadQuestion():
+     - Calculates dynamic timer limits:
+       * Low/Junior: 30s MCQ / 90s Coding
+       * Medium/Mid-Level: 20s MCQ / 60s Coding
+       * High/Senior: 10s MCQ / 30s Coding
+     - Toggles display panels: if MCQ, empties and loops over options to append label wrappers. If Coding, 
+       sets the workspace textarea value to the question placeholder.
+     - Calls startTimer() to trigger the countdown.
+  4. startTimer():
+     - Uses setInterval to decrement the timer every 1000ms (1s).
+     - If the timer hits 0, it calls clearInterval and automatically submits the current question by executing nextQuestion().
+  5. nextQuestion():
+     - Checks and evaluates answers:
+       * MCQ: checks if checked radio matches the answer.
+       * Coding: checks if code is not equal to default placeholder and uses .some() to check if crucial solution 
+         keywords are present in user code.
+     - Increments score by 20 points for each correct match.
+     - Logs questions, answers, correct flags, and solutions into answersLog.
+     - Increments index and loads next question.
+  6. showResult():
+     - Computes final ratings: Excellent (>=80), Good (>=60), Needs Improvement (<60).
+     - Empties #reviewList and loops over answersLog.
+     - Uses document.createElement("div") to dynamically append cards, formatting code strings inside pre code tags.
+  7. EVENT DELEGATION:
+     - Captures click events on parent container #reviewList. Checks if target clicked has the class 'delete-btn' 
+       and executes parentElement.remove() to cleanly wipe card elements.
+  8. FILE BLOB GENERATOR:
+     - Builds a string matching the current DOM scorecard cards.
+     - Creates new Blob([data], { type: "text/plain" }).
+     - Instantiates temporary local anchor tag (URL.createObjectURL(blob)), triggers a simulated click, 
+       and initiates the file download (name_Interview_Report.txt).
